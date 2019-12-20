@@ -1835,6 +1835,9 @@ void GUIFormSpecMenu::parseImageButton(parserData* data, const std::string &elem
 		if (type == "image_button_exit")
 			spec.is_exit = true;
 
+		video::ITexture *texture = 0;
+		texture = m_tsrc->getTexture(image_name);
+
 		GUIButtonImage *e = GUIButtonImage::addButton(Environment, rect, this, spec.fid, spec.flabel.c_str());
 
 		if (spec.fname == data->focused_fieldname) {
@@ -1846,12 +1849,8 @@ void GUIFormSpecMenu::parseImageButton(parserData* data, const std::string &elem
 
 		// We explicitly handle these arguments *after* the style properties in
 		// order to override them if they are provided
-		if (!image_name.empty())
-		{
-			video::ITexture *texture = m_tsrc->getTexture(image_name);
-			e->setForegroundImage(guiScalingImageButton(
-				Environment->getVideoDriver(), texture, geom.X, geom.Y));
-		}
+		e->setForegroundImage(guiScalingImageButton(
+			Environment->getVideoDriver(), texture, geom.X, geom.Y));
 		if (!pressed_image_name.empty()) {
 			video::ITexture *pressed_texture = m_tsrc->getTexture(pressed_image_name);
 			e->setPressedForegroundImage(guiScalingImageButton(
